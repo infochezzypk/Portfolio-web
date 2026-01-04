@@ -1,0 +1,463 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Graphic Lines | Premium Video Editing</title>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;600;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <style>
+        /* --- RESET & VARIABLES --- */
+        :root {
+            --neon: #00ffcc;
+            --neon-blue: #00aaff;
+            --bg-dark: #050505;
+            --glass: rgba(255, 255, 255, 0.05);
+            --text: #ffffff;
+            --text-gray: #b0b0b0;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Outfit', sans-serif;
+            scroll-behavior: smooth;
+        }
+
+        body {
+            background-color: var(--bg-dark);
+            color: var(--text);
+            overflow-x: hidden;
+            line-height: 1.6;
+        }
+
+        /* --- PROFESSIONAL ANIMATED BACKGROUND --- */
+        .animated-bg {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: -2;
+            background: linear-gradient(45deg, #000000 25%, #0a0a0a 25%, #0a0a0a 50%, #000000 50%, #000000 75%, #0a0a0a 75%, #0a0a0a 100%);
+            background-size: 40px 40px;
+            animation: moveBackground 3s linear infinite;
+            opacity: 0.5;
+        }
+
+        .animated-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: -1;
+            background: radial-gradient(circle at 50% 50%, transparent 0%, #050505 90%);
+        }
+
+        @keyframes moveBackground {
+            0% { background-position: 0 0; }
+            100% { background-position: 40px 40px; }
+        }
+
+        /* --- NAVBAR --- */
+        nav {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 15px 5%;
+            background: rgba(0,0,0,0.8);
+            backdrop-filter: blur(15px);
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+            border-bottom: 1px solid rgba(255,255,255,0.1);
+        }
+
+        .logo {
+            font-size: 1.6rem;
+            font-weight: 800;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            color: white;
+        }
+        .logo span { color: var(--neon); }
+
+        .search-box input {
+            background: rgba(255,255,255,0.1);
+            border: 1px solid rgba(255,255,255,0.2);
+            padding: 8px 15px;
+            border-radius: 30px;
+            color: white;
+            outline: none;
+            width: 100%;
+            max-width: 250px;
+            transition: 0.3s;
+        }
+        .search-box input:focus { border-color: var(--neon); }
+
+        /* --- HERO --- */
+        .hero {
+            padding: 80px 20px 50px;
+            text-align: center;
+        }
+
+        .hero h1 {
+            font-size: 3.5rem;
+            line-height: 1.1;
+            text-transform: uppercase;
+            margin-bottom: 15px;
+            background: linear-gradient(to right, #fff, #ccc);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+        .hero h1 span {
+            background: linear-gradient(to right, var(--neon), var(--neon-blue));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        /* --- STATS --- */
+        .stats-wrapper {
+            display: flex;
+            justify-content: center;
+            gap: 40px;
+            margin-top: 40px;
+            flex-wrap: wrap;
+        }
+        .stat-box h2 { font-size: 2.5rem; color: var(--neon); margin: 0; }
+        .stat-box p { color: var(--text-gray); font-size: 0.9rem; margin-top: 5px; }
+
+        /* --- REVIEW CTA --- */
+        .review-banner {
+            max-width: 800px;
+            margin: 50px auto;
+            padding: 30px;
+            background: linear-gradient(90deg, rgba(0,255,204,0.05) 0%, rgba(0,0,0,0) 100%);
+            border-left: 4px solid var(--neon);
+            border-radius: 0 10px 10px 0;
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+        }
+        .review-banner h3 { font-size: 1.5rem; margin-bottom: 10px; }
+        .btn-outline {
+            display: inline-block;
+            padding: 10px 30px;
+            border: 1px solid var(--neon);
+            color: var(--neon);
+            text-decoration: none;
+            border-radius: 50px;
+            font-weight: 600;
+            transition: 0.3s;
+            margin-top: 10px;
+        }
+        .btn-outline:hover { background: var(--neon); color: black; }
+
+        /* --- PORTFOLIO --- */
+        .portfolio-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+            gap: 25px;
+            padding: 20px 5%;
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+
+        .card {
+            background: var(--glass);
+            border: 1px solid rgba(255,255,255,0.08);
+            border-radius: 12px;
+            overflow: hidden;
+            transition: 0.3s;
+            opacity: 0; /* Animated later */
+            transform: translateY(30px);
+        }
+        .card.visible { opacity: 1; transform: translateY(0); }
+        .card:hover { transform: translateY(-5px); border-color: var(--neon); }
+        
+        .card img { width: 100%; height: 180px; object-fit: cover; }
+        .card-body { padding: 15px; text-align: center; }
+        .view-btn {
+            display: inline-block;
+            margin-top: 8px;
+            padding: 6px 20px;
+            background: rgba(255,255,255,0.1);
+            color: white;
+            text-decoration: none;
+            border-radius: 20px;
+            font-size: 0.85rem;
+            transition: 0.3s;
+        }
+        .card:hover .view-btn { background: var(--neon); color: black; }
+
+        /* --- FAQ --- */
+        .faq-section { max-width: 800px; margin: 80px auto; padding: 0 20px; }
+        .faq-item { border-bottom: 1px solid #333; margin-bottom: 10px; }
+        .faq-question { padding: 15px 0; cursor: pointer; display: flex; justify-content: space-between; font-weight: 600; }
+        .faq-answer { max-height: 0; overflow: hidden; color: var(--text-gray); transition: 0.3s; }
+        .faq-item.active .faq-answer { padding-bottom: 15px; max-height: 200px; }
+        .faq-question i { transition: 0.3s; }
+        .faq-item.active i { transform: rotate(180deg); color: var(--neon); }
+
+        /* --- FOOTER (NEW PROFESSIONAL) --- */
+        footer {
+            background: #000;
+            padding: 60px 5% 20px;
+            margin-top: 80px;
+            border-top: 1px solid rgba(255,255,255,0.1);
+        }
+
+        .footer-content {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: space-between;
+            gap: 40px;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .footer-col { flex: 1; min-width: 250px; }
+        
+        .footer-col h3 { color: white; margin-bottom: 20px; font-size: 1.2rem; }
+        .footer-col h4 { color: var(--neon); margin-bottom: 15px; font-size: 1.4rem; text-transform: uppercase; }
+        
+        .contact-info p {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            margin-bottom: 12px;
+            color: var(--text-gray);
+            font-size: 0.95rem;
+        }
+        .contact-info i { color: var(--neon); width: 20px; }
+
+        .founder-name {
+            font-size: 1.1rem;
+            color: white;
+            font-weight: bold;
+            margin-top: 10px;
+            display: block;
+        }
+        .founder-badge {
+            background: rgba(255,255,255,0.1);
+            padding: 2px 8px;
+            border-radius: 4px;
+            font-size: 0.7rem;
+            color: var(--neon);
+            margin-left: 8px;
+            vertical-align: middle;
+        }
+
+        .social-icons { margin-top: 20px; }
+        .social-btn {
+            display: inline-flex;
+            width: 40px; height: 40px;
+            background: rgba(255,255,255,0.1);
+            align-items: center; justify-content: center;
+            border-radius: 50%;
+            color: white; text-decoration: none;
+            margin-right: 10px; transition: 0.3s;
+        }
+        .social-btn:hover { background: var(--neon); color: black; }
+
+        .footer-bottom {
+            text-align: center;
+            margin-top: 50px;
+            padding-top: 20px;
+            border-top: 1px solid #222;
+            color: #666;
+            font-size: 0.8rem;
+        }
+
+        @media (max-width: 768px) {
+            .hero h1 { font-size: 2.5rem; }
+            .footer-content { flex-direction: column; }
+        }
+    </style>
+</head>
+<body>
+
+    <div class="animated-bg"></div>
+    <div class="animated-overlay"></div>
+
+    <nav>
+        <div class="logo">Graphic<span>Lines</span></div>
+        <div class="search-box">
+            <input type="text" id="searchInput" placeholder="Search categories...">
+        </div>
+    </nav>
+
+    <section class="hero">
+        <h1>Premium Video editing<br><span>That Elevates Your Brand</span></h1>
+        <p style="color: var(--text-gray); max-width: 600px; margin: 0 auto;">
+            We transform your raw footage into engaging stories. High-quality edits for brands, creators, and businesses.
+        </p>
+        
+        <div class="stats-wrapper">
+            <div class="stat-box">
+                <h2 class="counter" data-target="75">0</h2>
+                <p>Projects Completed</p>
+            </div>
+            <div class="stat-box">
+                <h2 class="counter" data-target="97">0</h2>
+                <p>Client Satisfaction (%)</p>
+            </div>
+        </div>
+    </section>
+
+    <div class="review-banner">
+        <h3>Client Satisfaction Speaks for Itself</h3>
+        <p style="color: #aaa; margin-bottom: 15px;">We don’t just deliver projects — we deliver results.
+Over 75+ completed projects with satisfied clients across different industries.
+See how our work helped brands stand out and grow.
+⭐ Rated by real clients for quality, creativity, and results.</p>
+        <a href="https://sites.google.com/view/digital-ibsepro/client-reviews?authuser=0" class="btn-outline" target="_blank">
+            <i class="fas fa-star"></i> Check Reviews
+        </a>
+    </div>
+
+    <h2 style="text-align: center; margin-bottom: 30px;">Our Portfolio</h2>
+    <div class="portfolio-grid" id="portfolioGrid">
+        
+        <div class="card"><img src="https://images.unsplash.com/photo-1441986300917-64674bd600d8?w=600" alt="Clothing"><div class="card-body"><h3>Clothing Ads</h3><a href="https://drive.google.com/drive/folders/1TMNaBGqCDHV6M3VOyg5-9Xiu4k0P-8Pv" class="view-btn" target="_blank">View</a></div></div>
+
+        <div class="card"><img src="https://images.unsplash.com/photo-1546193430-c2d207739ed7?w=600" alt="Bridal"><div class="card-body"><h3>Bridal Fashion</h3><a href="https://drive.google.com/drive/folders/1D6MW0UISgppy2ogrbt86Xj0L-wPnpWmu" class="view-btn" target="_blank">View</a></div></div>
+
+        <div class="card"><img src="https://images.unsplash.com/photo-1560448204-e02f11c3d0e2?w=600" alt="Real Estate"><div class="card-body"><h3>Real Estate</h3><a href="https://drive.google.com/drive/folders/1Rc0wvyQndaUCckHQk7StGDdP_UKJR9QH" class="view-btn" target="_blank">View</a></div></div>
+
+        <div class="card"><img src="https://images.unsplash.com/photo-1523275335684-37898b6baf30?w=600" alt="Products"><div class="card-body"><h3>Product Showcase</h3><a href="https://drive.google.com/drive/folders/1pE_O6bKLsVdHejcVOAD88fzSnnxTvGyf" class="view-btn" target="_blank">View</a></div></div>
+
+        <div class="card"><img src="https://images.unsplash.com/photo-1516321318423-f06f85e504b3?w=600" alt="E-commerce"><div class="card-body"><h3>E-commerce</h3><a href="https://drive.google.com/drive/folders/1Oyu8-Rh-iQqPYuxgFYrTxUi4AIh-pU20" class="view-btn" target="_blank">View</a></div></div>
+
+        <div class="card"><img src="https://images.unsplash.com/photo-1576091160550-2187d80afea2?w=600" alt="Medical"><div class="card-body"><h3>Medical</h3><a href="https://drive.google.com/drive/folders/12nd_Woi-cG-aAI_rtpllbbJICE_mIj6V" class="view-btn" target="_blank">View</a></div></div>
+
+        <div class="card"><img src="https://images.unsplash.com/photo-1521791136064-7986c2920216?w=600" alt="Hiring"><div class="card-body"><h3>Recruitment</h3><a href="https://drive.google.com/drive/folders/1EKmj3Sa740prj-vTppnFj2F827AlF-6o" class="view-btn" target="_blank">View</a></div></div>
+
+        <div class="card"><img src="https://images.unsplash.com/photo-1579532537598-459ecdaf39cc?w=600" alt="Investment"><div class="card-body"><h3>Investment</h3><a href="https://drive.google.com/drive/folders/1GLHYdeFAR1DXMEZijo1VPSyPAx2ki7Ii" class="view-btn" target="_blank">View</a></div></div>
+
+        <div class="card"><img src="https://images.unsplash.com/photo-1583391733975-6713054d05b9?w=600" alt="Abaya"><div class="card-body"><h3>Abaya Fashion</h3><a href="https://drive.google.com/drive/folders/1gniqyXqjLpq719XLrOv8Wx_piJApBvLs" class="view-btn" target="_blank">View</a></div></div>
+
+        <div class="card"><img src="https://images.unsplash.com/photo-1503376763036-066120622c74?w=600" alt="Cars"><div class="card-body"><h3>Cars & Tech</h3><a href="https://drive.google.com/drive/folders/1BE2-Ci0IGUPX72doq0GeLOvHqVRhQ9dG" class="view-btn" target="_blank">View</a></div></div>
+
+        <div class="card"><img src="https://images.unsplash.com/photo-1467810563316-b5476525c0f9?w=600" alt="Festival"><div class="card-body"><h3>New Year</h3><a href="https://drive.google.com/drive/folders/1-hXi0AQp-ufzsbB-MBp5U1yD9IT8trpI" class="view-btn" target="_blank">View</a></div></div>
+
+        <div class="card"><img src="https://images.unsplash.com/photo-1557804506-669a67965ba0?w=600" alt="Promo"><div class="card-body"><h3>Promotional</h3><a href="https://drive.google.com/drive/folders/15gVzo6x_L7KsRcvz3hP9OV5bj9MaY7cR" class="view-btn" target="_blank">View</a></div></div>
+    </div>
+
+    <div class="faq-section">
+        <h2 style="text-align: center; margin-bottom: 20px;">Frequently Asked Questions</h2>
+        <div class="faq-item">
+            <div class="faq-question">Do you offer revisions after delivery? <i class="fas fa-chevron-down"></i></div>
+            <div class="faq-answer">Yes. We provide multiple revision rounds to ensure the final video matches your vision and business goals. Client satisfaction is always our priority.</div>
+        </div>
+        <div class="faq-item">
+            <div class="faq-question">How long does it take to complete a video project? <i class="fas fa-chevron-down"></i></div>
+            <div class="faq-answer">Most projects are completed within 24–48 hours, depending on the scope and complexity. We focus on fast delivery without compromising on quality..</div>
+        </div>
+        <div class="faq-item">
+            <div class="faq-question">What type of videos do you specialize in?<i class="fas fa-chevron-down"></i></div>
+            <div class="faq-answer">We specialize in social media ads, promotional videos, cinematic edits, brand videos, and business content designed to attract, engage, and convert audiences..</div>
+        </div>
+        <div class="faq-item">
+            <div class="faq-question">How do I get started with a project?<i class="fas fa-chevron-down"></i></div>
+            <div class="faq-answer">Getting started is simple. Share your requirements, reference material, and goals with us. We’ll handle the rest — from concept to final delivery.</div>
+        </div>
+        <div class="faq-item">
+            <div class="faq-question">Still have questions??<i class="fas fa-chevron-down"></i></div>
+            <div class="faq-answer">We’re here to help — feel free to reach out anytime.
+Let’s discuss your project and turn your ideas into impactful visuals.
+👉 Contact us today and get started.</div>
+        </div>
+    </div>
+
+    <footer>
+        <div class="footer-content">
+            
+            <div class="footer-col">
+                <h4>Graphic Lines</h4>
+                <p style="color: #aaa; margin-bottom: 20px;">
+                    Graphic Lines is a full-service creative studio.
+From design and video editing to social media marketing and management, we help brands build a strong digital presence.
+Creative ideas. Strategic execution. Real results.
+                </p>
+                <span class="founder-name">Aqib Khan <span class="founder-badge">CEO & Founder</span></span>
+            </div>
+
+            <div class="footer-col">
+                <h3>Contact Us</h3>
+                <div class="contact-info">
+                    <p><i class="fas fa-phone"></i> +92 305 8559591</p>
+                    <p><i class="fas fa-envelope"></i> graphiclines.pk@gmail.com</p>
+                    <p><i class="fas fa-map-marker-alt"></i> Pakistan</p>
+                </div>
+            </div>
+
+            <div class="footer-col">
+                <h3>Connect With Us</h3>
+                <div class="social-icons">
+                    <a href="https://www.facebook.com/profile.php?id=61569739343185" class="social-btn" target="_blank">
+                        <i class="fab fa-facebook-f"></i>
+                    </a>
+                    <a href="https://wa.me/923058559591" class="social-btn" target="_blank">
+                        <i class="fab fa-whatsapp"></i>
+                    </a>
+                </div>
+                <a href="https://wa.me/923058559591" class="btn-outline" style="margin-top: 20px;">Start A Project</a>
+            </div>
+        </div>
+
+        <div class="footer-bottom">
+            <p>Graphiclines All Rights Reserved © 2026</p>
+        </div>
+    </footer>
+
+    <script>
+        // Scroll Animation
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach((entry) => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('visible');
+                }
+            });
+        });
+        document.querySelectorAll('.card').forEach((el) => observer.observe(el));
+
+        // FAQ Toggle
+        document.querySelectorAll('.faq-question').forEach(item => {
+            item.addEventListener('click', () => {
+                item.parentElement.classList.toggle('active');
+            });
+        });
+
+        // Search
+        document.getElementById('searchInput').addEventListener('keyup', function(e) {
+            let term = e.target.value.toLowerCase();
+            document.querySelectorAll('.card').forEach(card => {
+                let title = card.querySelector('h3').textContent.toLowerCase();
+                card.style.display = title.includes(term) ? 'block' : 'none';
+            });
+        });
+
+        // Counters
+        const counters = document.querySelectorAll('.counter');
+        counters.forEach(counter => {
+            counter.innerText = '0';
+            const updateCounter = () => {
+                const target = +counter.getAttribute('data-target');
+                const c = +counter.innerText;
+                const increment = target / 100;
+                if(c < target) {
+                    counter.innerText = `${Math.ceil(c + increment)}`;
+                    setTimeout(updateCounter, 20);
+                } else {
+                    counter.innerText = target == 75 ? "75+" : "97%";
+                }
+            };
+            updateCounter();
+        });
+    </script>
+</body>
+</html>
